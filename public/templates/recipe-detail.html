@@ -1,0 +1,226 @@
+<div class="grid-100 row controls">
+  <div class="grid-50">
+    <!-- Add a binding expression to display the recipe name 
+      when editing a recipe. When adding a recipe, display the 
+      static text 'Add New Recipe'. -->
+    <h2>{{process}}</h2>
+  </div>
+  <div class="grid-50">
+    <div class="flush-right">
+      <!-- Add directives to both the "Save Recipe" and "Cancel"
+        buttons in order to handle user clicks. -->
+      <button ng-click="saveRecipe(recipe)" ng-show="state =='Cancel'">Save Recipe</button>
+      <button ng-click="cancelRecipe()" class="secondary">{{state}}</button>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+
+<!-- Add a directive to this div element so that it only displays
+  when there are validation messages to display. -->
+<div ng-show="errorCount > 0" class="grid-100 row">
+  <div class="grid-100">
+    <p><i>The following errors were found:</i></p>
+    <ul class="validation-errors">
+      <!-- Add a directive to this li element so that it repeats
+        for each validation message that there is to display -->
+      <li ng-repeat="error in errors">
+        <!-- Add a binding expression to display the validation user message. -->
+        {{error.message}}
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Name </label>
+    </p>
+  </div>
+  <div class="grid-40">
+    <p>
+      <!-- Add a directive to this input element to bind its value 
+        to the recipe model's `name` property. -->
+      <input type="text" ng-model="recipe.name" ng-change="changed()">
+    </p>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Description </label>
+    </p>
+  </div>
+  <div class="grid-60">
+    <p>
+      <!-- Add a directive to this textarea element to bind its content 
+        to the recipe model's `description` property. -->
+      <textarea ng-model="recipe.description" ng-change="changed()"></textarea>
+    </p>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Category </label>
+    </p>
+  </div>
+  <div class="grid-30">
+    <p>
+      <!-- Add directives to this select element to bind its value 
+        to the recipe model's `category` property and to populate the list
+        with the categories from the database. -->
+      <select ng-model="recipe.category" ng-options="category.name as category.name for category in categories"  ng-change="changed()">
+      </select>
+    </p>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Prep Time </label>
+    </p>
+  </div>
+  <div class="grid-20">
+    <p>
+      <!-- Add a directive to this input element to bind its value 
+        to the recipe model's `prepTime` property. -->
+      <input ng-model="recipe.prepTime" type="number"  ng-change="changed()">
+    </p>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Cook Time </label>
+    </p>
+  </div>
+  <div class="grid-20">
+    <p>
+      <!-- Add a directive to this input element to bind its value 
+        to the recipe model's `cookTime` property. -->
+      <input ng-model="recipe.cookTime" type="number" ng-change="changed()">
+    </p>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Ingredients </label>
+    </p>
+  </div>
+  <div class="grid-30">
+    <p class="label-spacing">
+      <label> Item </label>
+    </p>
+  </div>
+  <div class="grid-30">
+    <p class="label-spacing">
+      <label> Condition </label>
+    </p>
+  </div>
+  <div class="grid-15">
+    <p class="label-spacing">
+      <label> Amount </label>
+    </p>
+  </div>
+
+  <!-- Add a directive to this div element so that it repeats 
+    for each recipe ingredient to display. -->
+  <div ng-repeat="ingredient in recipe.ingredients" class="ingredient-row">
+    <div class="prefix-20 grid-30">
+      <p>
+        <!-- add directives to this select element to bind its value 
+          to the recipe ingredient model's `foodItem` property and to 
+          populate the list with the food items from the database. -->
+        <select ng-model="ingredient.foodItem" ng-options="foodItem.name as foodItem.name for foodItem in foodItems" ng-change="changed()">
+        </select>
+      </p>
+    </div>
+    <div class="grid-30">
+      <p>
+        <!-- Add a directive to this input element to bind its value 
+          to the recipe ingredient model's `condition` property. -->
+        <input ng-model="ingredient.condition" type="text" ng-change="changed()">
+      </p>
+    </div>
+    <div class="grid-15">
+      <p>
+        <!-- Add a directive to this input element to bind its value 
+          to the recipe ingredient model's `amount` property. -->
+        <input ng-model="ingredient.amount" type="text" ng-change="changed()">
+      </p>
+    </div>
+    <div class="grid-5 pad-top">
+      <p class="flush-right">
+        <!-- Add a directive to this anchor element so that you can 
+          delete the recipe ingredient when the user clicks on the 'Delete' link. -->
+        <a ng-click="deleteEntry(recipe.ingredients, $index)" class="no-action-link"> <img src="images/delete.svg" height="12px"> </a>
+      </p>
+    </div>
+  </div>
+
+  <div class="prefix-20 grid-80 add-row">
+    <p>
+      <!-- TODO Add a directive to this button in order to handle 
+        when the user clicks to add a new recipe ingredient. -->
+      <button ng-click="addEntry(recipe.ingredients)">+ Add Another Ingredient</button>
+    </p>
+  </div>
+
+</div>
+<div class="clear"></div>
+
+<div class="grid-100 row">
+  <div class="grid-20">
+    <p class="label-spacing">
+      <label> Steps </label>
+    </p>
+  </div>
+  <div class="grid-75">
+    <p class="label-spacing">
+      <label> Description </label>
+    </p>
+  </div>
+
+  <!-- Add a directive to this div element so that it repeats 
+    for each recipe step to display. -->
+  <div ng-repeat="step in recipe.steps" class="step-row">
+    <div class="prefix-20 grid-75">
+      <p>
+        <!-- TODO Add a directive to this input element to bind its value 
+          to the recipe step model's `description` property. -->
+        <input ng-model="step.description" type="text" ng-change="changed()">
+      </p>
+    </div>
+    <div class="grid-5 pad-top">
+      <p class="flush-right">
+        <!-- TODO Add a directive to this anchor element so that you can 
+          delete the recipe step when the user clicks on the 'Delete' link. -->
+        <a ng-click="deleteEntry(recipe.steps, $index)" class="no-action-link"> <img src="images/delete.svg" height="12px"> </a>
+      </p>
+    </div>
+  </div>
+
+  <div class="prefix-20 grid-80 add-row">
+    <p>
+     <!-- TODO Add a directive to this button in order to handle 
+       when the user clicks to add a new recipe step. -->
+     <button ng-click="addEntry(recipe.steps)">+ Add Another Step</button>
+    </p>
+  </div>
+
+</div>
+<div class="clear"></div>
